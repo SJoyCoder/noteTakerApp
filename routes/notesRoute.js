@@ -1,7 +1,7 @@
 const notesRoute = require('express').Router();
-const uuid = require('../Develop/db/uuid');
+const uuid = require('../db/uuid');
 
-// const { readFromFile, readAndAppend } = require('../Develop/db/db.json');
+const { readFromFile, readAndAppend } = require('../db/fsUtils.js');
 
 notesRoute.get('/', (req, res) => {
     console.info(`${req.method} notes have been recieved`);
@@ -11,7 +11,7 @@ notesRoute.get('/', (req, res) => {
 
   // POST Route for notes
   notesRoute.post('/', (req,res) => {
-    console.info(`${req.method} request to submit notes`);
+    console.info(`${req.method} request to submit note`);
 
     // destructuring
     const { title, text } = req.body;
@@ -20,9 +20,9 @@ notesRoute.get('/', (req, res) => {
         const newNote = {
             title,
             text,
-            id: uuid,
+            id: uuid(),
         };
-        readAndAppend(newNote, '../db/db.json');
+        readAndAppend(newNote, './db/db.json');
 
         const response = {
             status: 'IT WORKED',
