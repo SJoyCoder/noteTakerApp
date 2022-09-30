@@ -1,6 +1,6 @@
 const indexRoute = require('express').Router();
 
-const { readFromFile, writeToFile } = require('../db/fsUtils');
+
 // require notesRoute
 const notesRoute = require('./notesRoute');
 
@@ -8,21 +8,7 @@ const notesRoute = require('./notesRoute');
 // tell it the index how to route it, http://localhost:3001/notes
 indexRoute.use('/notes', notesRoute);
 
-indexRoute.delete('/', (req,res) => {
-    console.info(`${req.method} note deleted`);
-    const noteId = req.params.id;
-    readFromFile('./db/db.json')
-        .then((data) => JSON.parse(data))
-        .then((json) => {
-            const result = json.filter((indexRoute) => indexRoute.id !== noteId);
 
-            // writing new array without deleted note
-            writeToFile('./db/db.json', result);
-
-            res.json(`Note ${noteID} has been deleted`);
-        });
-
-    }) 
 
     // tips.delete('/:tip_id', (req, res) => {
     //     const tipId = req.params.tip_id;
