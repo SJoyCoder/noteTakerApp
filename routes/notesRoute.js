@@ -25,7 +25,6 @@ notesRoute.get('/', (req, res) => {
         readAndAppend(newNote, './db/db.json');
 
         const response = {
-            status: 'IT WORKED',
             body: newNote,
         };
 
@@ -36,17 +35,17 @@ notesRoute.get('/', (req, res) => {
   });
 
   notesRoute.delete('/:id', (req,res) => {
-    console.log(req.params.id);
+    console.log(req.params.id); 
     const noteId = req.params.id;
     readFromFile('./db/db.json')
         .then((json) => {
-            const result = json.filter((notesRoute) => notesRoute.id !== noteId);
+            const result = json.filter((notes) => notes.id !== noteId)
             // writing new array without deleted note
-            writeToFile('./db/db.json', result);
-
-            res.json(`Note ${noteId} has been deleted`);
+            // writeToFile('./db/db.json', result);
+            console.log(result);
+            res.status(200).json(`Note ${noteId} has been deleted`);
         });
-
+    
     }) 
 
   module.exports = notesRoute;
