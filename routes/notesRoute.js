@@ -1,7 +1,7 @@
 const notesRoute = require('express').Router();
 const uuid = require('../db/uuid');
 
-const { readFromFile, readAndAppend, writeToFile } = require('../db/fsUtils.js');
+const { readFromFile, readAndAppend, writeToFile } = require('../db/fsUtils');
 
 notesRoute.get('/', (req, res) => {
     console.info(`${req.method} notes have been recieved`);
@@ -38,10 +38,11 @@ notesRoute.get('/', (req, res) => {
     console.log(req.params.id); 
     const noteId = req.params.id;
     readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
         .then((json) => {
             const result = json.filter((notes) => notes.id !== noteId)
             // writing new array without deleted note
-            // writeToFile('./db/db.json', result);
+            writeToFile('./db/db.json', result);
             console.log(result);
             res.status(200).json(`Note ${noteId} has been deleted`);
         });
